@@ -1,6 +1,6 @@
 # list/Makefile
-#
-# Makefile for list implementation and test file .
+# 
+# Makefile for list implementation and test file  .
 #
 # <Author>
 list: list.c main.c
