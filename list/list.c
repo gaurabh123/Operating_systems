@@ -2,9 +2,7 @@
 // 
 // Implementation for linked list.
 //
-// Gaurav Adhikari 
-
-
+// Gaurav  Adhikari
 
 #include <stdio.h>
 #include <stdlib.h>
