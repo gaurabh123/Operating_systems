@@ -2,7 +2,7 @@
 // 
 // Interface definition for linked list.
 //
-// <Author>
+// Gaurav Adhikari
 
 #include <stdbool.h>
 
@@ -37,6 +37,8 @@ void list_print(list_t *l);
 
 /* returns string of List */
 char* listToString(list_t *l);
+/* returns node from heap */
+node_t * getNode(elem value);
 
 /* Returns the length of the list. */
 int list_length(list_t *l);
