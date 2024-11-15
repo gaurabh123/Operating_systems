@@ -1,4 +1,3 @@
-// Author: Saharsha Tiwari & Sameer Acharya
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,7 +40,7 @@ void tokenizer(char command_line[], char *arguments[] ) {
 
 void foreground_process_handler(int signum) {
     if (foreground_process > 0) {
-        // Terminate the foreground process
+        
         kill(foreground_process, SIGTERM);
         printf("\nTerminated .. Time limit exceeded 10 seconds  .\n");
     }
@@ -113,7 +112,7 @@ void executeCommands(char *arguments[]) {
         int run_in_background = 0;
         if (argumentsCounts > 0 && strcmp(arguments[argumentsCounts - 1], "&") == 0) {
             run_in_background = 1;
-            // Remove the "&" from the arguments
+            
             arguments[argumentsCounts - 1] = NULL;
         }
         pid_t pid = fork();
@@ -136,7 +135,7 @@ void executeCommands(char *arguments[]) {
                 alarm(0);
                 foreground_process = 0;
             } else {
-                // Add the background process to the list
+                
                 if (num_background_processes < MAX_BACKGROUND_PROCESSES) {
                     background_processes[num_background_processes] = pid;
                     num_background_processes++;
@@ -158,31 +157,31 @@ void sigint_handler(int signum) {
 }
 
 
-// Signal handler for background process termination
+
 void background_processes_handler(int signum) {
     int i = 0;
     for (; i < num_background_processes; i++) {
         pid_t bg_pid = waitpid(background_processes[i], NULL, WNOHANG);
         if (bg_pid > 0) {
             printf("Background process with PID %d has completed.\n", bg_pid);
-            // Remove the completed process from the list
+            
             int j = i;
             for (; j < num_background_processes - 1; j++) {
                 background_processes[j] = background_processes[j + 1];
             }
             num_background_processes--;
-            i--; // Recheck the same index
+            i--; 
         }
     }
 }
 
 int main() {
-    // Stores the string typed into the command line.
+    
     char command_line[MAX_COMMAND_LINE_LEN];
     char cmd_bak[MAX_COMMAND_LINE_LEN];
 
     char buff[256];
-    // Stores the tokenized command line input.
+    
     char *arguments[MAX_COMMAND_LINE_ARGS];
 
     signal(SIGCHLD, background_processes_handler);
@@ -192,7 +191,7 @@ int main() {
 
         do{
             argumentsCounts = 0;
-            // Print the shell prompt.
+            
             if (getcwd(buff, sizeof(buff)) == NULL) {
                 perror("Error : Could not read the current directory");
             }
@@ -200,10 +199,6 @@ int main() {
                 printf("%s%s", buff, prompt);
                 fflush(stdout);
             }
-
-            // Read input from stdin and store it in command_line. If there's an
-            // error, exit immediately. (If you want to learn more about this line,
-            // you can Google "man fgets")
 
             if ((fgets(command_line, MAX_COMMAND_LINE_LEN, stdin) == NULL) && ferror(stdin)) {
                 fprintf(stderr, "fgets error");
@@ -217,44 +212,16 @@ int main() {
         }while(command_line[0] == 0x0A);  // while just ENTER pressed
 
 
-        // If the user input was EOF (ctrl+d), exit the shell.
+       
         if (feof(stdin)) {
             printf("\n");
             fflush(stdout);
             fflush(stderr);
             return 0;
         }
-        // TODO:
-        //
-
-        // 0. Modify the prompt to print the current working directory
 
 
-        // 1. Tokenize the command line input (split it on whitespace)
-
-
-        // 2. Implement Built-In Commands
-
-
-        // 3. Create a child process which will execute the command line input
-
-
-        // 4. The parent process should wait for the child to complete unless its a background process
-
-
-        // Hints (put these into Google):
-        // man fork
-        // man execvp
-        // man wait
-        // man strtok
-        // man environ
-        // man signals
-
-        // Extra Credit
-        // man dup2
-        // man open
-        // man pipes
     }
-    // This should never be reached.
+
     return -1;
 }
